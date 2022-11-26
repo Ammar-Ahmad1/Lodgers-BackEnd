@@ -10,6 +10,7 @@ module.exports.registerUser = async (req, res, next) => {
         const {name,email, password} = req.body;
         const hash = await cryptr.encrypt(password);
         const user = new UserModel({
+            name,
             email,
             password: hash,
         });

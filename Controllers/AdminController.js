@@ -31,6 +31,7 @@ module.exports.registrerAdmin = async(req, res, next) => {
     }
 };
 //=====================
+
 module.exports.login__controller = async (req, res, next) => {
   try {
     console.log(req.body)
@@ -40,7 +41,7 @@ module.exports.login__controller = async (req, res, next) => {
 
     if (!userInfo) {
       return res.status(401).json({
-        errors: { userExist: "User not exist Please register and then login again" },
+        errors:  "User not exist Please register and then login again" 
       });
     }
     const check= cryptr.decrypt(userInfo.password);
@@ -49,11 +50,10 @@ module.exports.login__controller = async (req, res, next) => {
       res.status(200).json({
         token,
         userInfo,
-      });
-
+      }); 
     }else{
       return res.status(401).json({
-        errors: { userExist: "Password is incorrect" },
+        errors: "Password is incorrect" 
       });
     }
 
