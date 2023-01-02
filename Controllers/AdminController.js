@@ -35,10 +35,11 @@ module.exports.registrerAdmin = async(req, res, next) => {
 module.exports.login__controller = async (req, res, next) => {
   try {
     console.log(req.body)
-    const { email, password } = req.body;
-
+    const  email  = req.body.email.value;
+    const  password  = req.body.password.value;
     const userInfo = await (await UserModel.findOne({ email }));
-
+    // userInfo.password = await cryptr.decrypt(userInfo.password);
+    console.log(userInfo)
     if (!userInfo) {
       return res.status(401).json({
         errors:  "User not exist Please register and then login again" 
@@ -57,7 +58,7 @@ module.exports.login__controller = async (req, res, next) => {
       });
     }
 
-  } catch (error) {
-    controllerError(error, res, "Error occurred");
+  } catch (errors) {
+    controllerError(errors, res, "Error occurred");
   }
 };
