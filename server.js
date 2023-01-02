@@ -6,7 +6,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const url = process.env.MONGO_URI
 
-
+app.use("/uploads", express.static("uploads"));
+app.use(express.urlencoded({limit: '25mb'}));
 app.use(express.json());
 app.use(cors());
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use("/", require("./Routes/AdminRoutes"));
 app.use("/", require("./Routes/HostelRoutes"));
 app.use("/", require("./Routes/UserRoutes"));
+app.use("/", require("./Routes/RoomRoutes"));
 
 //Database and server created
 
