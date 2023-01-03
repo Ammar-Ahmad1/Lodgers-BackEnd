@@ -13,10 +13,13 @@ const HostelSchema = new Schema({
     //     ref: 'Room'
     // }],
     addedOn: {type: Date, default: Date.now},
-    location: String,
+    location: {
+        type: {type: String, default: 'Point'}, 
+        coordinates: {type: [Number], default: [0, 0]}
+    },
     ratings: {type: Number, default: null},
     totalRooms: Number,
     //roomsMap: {type: Map, of: String, required: true}
 })
-
+HostelSchema.index({location: '2dsphere'})
 module.exports = new mongoose.model('Hostel', HostelSchema)
