@@ -19,6 +19,17 @@ const HostelSchema = new Schema({
     },
     ratings: {type: Number, default: null},
     totalRooms: Number,
+    features: {
+        wifi: {type: Boolean, default: false},
+        parking: {type: Boolean, default: false},
+        security: {type: Boolean, default: false},
+       // ac: {type: Boolean, default: false},
+        tv: {type: Boolean, default: false},
+        food: {type: Boolean, default: false},
+        laundry: {type: Boolean, default: false},
+       // gym: {type: Boolean, default: false},
+        
+    },
     //roomsMap: {type: Map, of: String, required: true}
 })
 HostelSchema.index({location: '2dsphere'})
