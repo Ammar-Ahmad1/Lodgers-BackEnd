@@ -1,13 +1,47 @@
 const HostelModel = require('../Models/HostelModel');
 const controllerError = require('../utils/controllerError');
 const cloudinary = require('../Middlewares/Cloudinary');
+// module.exports.addHostel = async (req, res, next) => {
+//     try {
+//       console.log(req.body);
+//         const { name, description, owner,longitude,latitude} = req.body;
+
+//         const pic = await cloudinary.uploader.upload(req.file.path);
+//        //const pic=await cloudinary.uploader.upload(image)
+//         const hostel = new HostelModel({
+//             name,
+//             location: {
+//                 type: 'Point',
+//                 coordinates: [parseFloat(longitude), parseFloat(latitude)]
+//             },
+
+//             description,
+//             image: pic.secure_url,
+//             // ratings,
+//             owner
+//         });
+
+//         hostel
+//             .save()
+//             .then((hostelData) => {
+//                 res.status(201).json({
+//                     hostelData
+//                 });
+//             })
+//             .catch((err) => {
+//                 controllerError(err, res, 'Error occurred');
+//             });
+//     } catch (error) {
+//         controllerError(error, res, 'Error occurred');
+//     }
+// };
+//add hostel with features
 module.exports.addHostel = async (req, res, next) => {
     try {
-      console.log(req.body);
-        const { name, description, owner,longitude,latitude} = req.body;
-
+        console.log(req.body);
+        const { name, description, owner,longitude,latitude,wifi, parking,kitchen,tv, laundry,security} = req.body;
         const pic = await cloudinary.uploader.upload(req.file.path);
-       //const pic=await cloudinary.uploader.upload(image)
+        //const pic=await cloudinary.uploader.upload(image)
         const hostel = new HostelModel({
             name,
             location: {
@@ -18,7 +52,16 @@ module.exports.addHostel = async (req, res, next) => {
             description,
             image: pic.secure_url,
             // ratings,
-            owner
+            owner,
+            features: {
+                wifi: wifi,
+                parking: parking,
+                food: kitchen,
+                tv: tv,
+                security: security,
+                laundry: laundry,
+            }
+
         });
 
         hostel
@@ -35,6 +78,7 @@ module.exports.addHostel = async (req, res, next) => {
         controllerError(error, res, 'Error occurred');
     }
 };
+
 //get hostels
 module.exports.getHostels = async (req, res, next) => {
     try {
@@ -52,6 +96,24 @@ module.exports.getHostelsByOwner = async (req, res, next) => {
         const hostels = await HostelModel.find({owner: owner});
         return res.status(200).json({
             hostels
+        });
+    } catch (error) {
+        controllerError(error, res, 'Error occurred');
+    }
+};
+//delete hostel
+module.exports.deleteHostel = async (req, res, next) => {
+    try {
+        const hostelId = req.params.id;
+        const hostel = await HostelModel.findById(hostelId);
+        if (!hostel) {
+            return res.status(404).json({
+                message: 'Hostel not found'
+            });
+        }
+        await hostel.remove();
+        return res.status(200).json({
+            message: 'Hostel deleted successfully'
         });
     } catch (error) {
         controllerError(error, res, 'Error occurred');
