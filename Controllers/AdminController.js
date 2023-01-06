@@ -62,3 +62,36 @@ module.exports.login__controller = async (req, res, next) => {
     controllerError(errors, res, "Error occurred");
   }
 };
+
+module.exports.login__controller_web = async (req, res, next) => {
+  try {
+    console.log(req.body)
+    // const  email  = req.body.email;
+    // const  password  = req.body.password;
+    const {email,password} = req.body;
+    console.log(email,password)
+    const userInfo = await (await UserModel.findOne({ email }));
+    // userInfo.password = await cryptr.decrypt(userInfo.password);
+    console.log(userInfo)
+    if (userInfo==null) {
+      return res.status(401).json({
+        errors:  "User not exist Please register and then login again" 
+      });
+    }
+    const check= cryptr.decrypt(userInfo.password);
+    if(check==password){
+      const token = jwt.sign({ _id: userInfo._id,name: userInfo.userName,email: userInfo.email,role: userInfo.role }, key);
+      res.status(200).json({
+        token,
+        userInfo,
+      }); 
+    }else{
+      return res.status(401).json({
+        errors: "Password is incorrect" 
+      });
+    }
+
+  } catch (errors) {
+    controllerError(errors, res, "Error occurred");
+  }
+};
