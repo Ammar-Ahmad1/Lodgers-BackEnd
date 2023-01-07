@@ -39,7 +39,7 @@ const cloudinary = require('../Middlewares/Cloudinary');
 module.exports.addHostel = async (req, res, next) => {
     try {
         console.log(req.body);
-        const { name, description, owner,longitude,latitude,wifi, parking,kitchen,tv, laundry,security} = req.body;
+        const { name, description, owner,longitude,latitude,wifi, parking,kitchen,tv, laundry,security,city} = req.body;
         const pic = await cloudinary.uploader.upload(req.file.path);
         //const pic=await cloudinary.uploader.upload(image)
         const hostel = new HostelModel({
@@ -60,8 +60,9 @@ module.exports.addHostel = async (req, res, next) => {
                 tv: tv,
                 security: security,
                 laundry: laundry,
-            }
+            },
 
+            city,
         });
 
         hostel

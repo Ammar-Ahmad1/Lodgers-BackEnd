@@ -30,6 +30,10 @@ const HostelSchema = new Schema({
        // gym: {type: Boolean, default: false},
         
     },
+    city: {
+        type: String,
+    }
+    
     //roomsMap: {type: Map, of: String, required: true}
 })
 HostelSchema.index({location: '2dsphere'})
