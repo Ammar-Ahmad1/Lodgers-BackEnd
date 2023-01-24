@@ -56,3 +56,19 @@ module.exports.updateUser = async (req, res, next) => {
         controllerError(error, res, 'Error occurred');
     }
 };
+//get user by id
+module.exports.getUserById = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const user
+            = await UserModel.findById
+            (id);
+        console.log(user);
+        return res.status(201).json({
+            user,
+        });
+    } catch (error) {
+        controllerError(error, res, 'Error occurred');
+    }
+};
+

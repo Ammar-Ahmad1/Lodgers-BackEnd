@@ -19,7 +19,7 @@ app.use("/", require("./Routes/AdminRoutes"));
 app.use("/", require("./Routes/HostelRoutes"));
 app.use("/", require("./Routes/UserRoutes"));
 app.use("/", require("./Routes/RoomRoutes"));
-
+app.use("/", require("./Routes/ReviewRoutes"));
 //Database and server created
 
 const PORT = process.env.PORT || 5000;
