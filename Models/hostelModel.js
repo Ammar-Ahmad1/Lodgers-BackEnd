@@ -8,10 +8,7 @@ const HostelSchema = new Schema({
     name: String,
     description: String,
     price: Number,
-    // rooms: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Room'
-    // }],
+   
     addedOn: {type: Date, default: Date.now},
     location: {
         type: {type: String, default: 'Point'}, 
