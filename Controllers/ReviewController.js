@@ -5,11 +5,14 @@ module.exports.addReview = async (req, res, next) => {
 
     try {
         console.log(req.body);
-        const { review, user, hostel } = req.body;
+        const { review, user, hostel,name, email } = req.body;
         const newReview = new Review({
             review,
             user,
             hostel,
+            name,
+            email
+
         });
         newReview
             .save()
