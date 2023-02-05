@@ -12,6 +12,12 @@ const reviewSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Hostel",
     },
+    name:{
+        type: String,
+    },
+    email:{
+        type: String,
+    },
 
     
 });
