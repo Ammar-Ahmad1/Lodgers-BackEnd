@@ -39,7 +39,7 @@ module.exports.getBookingByUserId = async (req, res, next) => {
 //add booking
 module.exports.addBooking = async (req, res, next) => {
     try{
-        const {hostelId, userId, checkIn, price, contactNo, message, customerName,ownerId} = req.body;
+        const {hostelId, userId, checkIn, price, contactNo, message, customerName,ownerId, roomId,roomImage,roomType,hostelName} = req.body;
         const booking = new Booking({
             hostelId,
             userId,
@@ -48,7 +48,12 @@ module.exports.addBooking = async (req, res, next) => {
             contactNo,
             message,
             customerName,
-            ownerId
+            ownerId,
+            roomId,
+            roomImage,
+            roomType,
+            hostelName
+            
         });
         booking
             .save()
