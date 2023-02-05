@@ -16,6 +16,23 @@ const bookingSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        hostelName: {
+            type: String,
+            required: true
+        },
+        roomImage: {
+            type: String,
+            required: true
+        },
+        roomType: {
+            type: String,
+            required: true
+        },
+        roomId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Room',
+            required: true
+        },
         checkIn: {
             type: Date,
             required: true

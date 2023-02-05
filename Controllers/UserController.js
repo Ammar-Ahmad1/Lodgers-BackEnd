@@ -5,15 +5,19 @@ const controllerError = require('../utils/controllerError');
 const key = process.env.SECRET_KEY
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
+const cloudinary = require('../Middlewares/Cloudinary');
+
 module.exports.registerUser = async (req, res, next) => {
     try {
         const {name,email, password,role} = req.body;
+        const pic = await cloudinary.uploader.upload(req.file.path);
         const hash = await cryptr.encrypt(password);
         const user = new UserModel({
             name,
             email,
             password: hash,
             role,
+            image: pic.secure_url,
         });
 
         user
