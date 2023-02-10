@@ -56,6 +56,10 @@ const bookingSchema = mongoose.Schema(
         status:{
             type: Boolean,
             default: false
+        },
+        paid:{
+            type: Boolean,
+            default: false
         }
     },
     {
