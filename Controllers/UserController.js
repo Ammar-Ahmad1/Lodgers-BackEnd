@@ -112,7 +112,7 @@ module.exports.emailSend = async (req, res, next) => {
 }
 const mailer =(email,code)=>{
     const sgMail = require('@sendgrid/mail')
-    sgMail.setApiKey('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')
+    sgMail.setApiKey(SetYourapiKey)
     const msg = {
       to: email, // Change to your recipient
       from: 'i190678@nu.edu.pk', // Change to your verified sender
