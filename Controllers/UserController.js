@@ -1,4 +1,5 @@
 const UserModel = require('../Models/UserModel');
+const otpModel = require('../Models/otpModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const controllerError = require('../utils/controllerError');
@@ -76,3 +77,87 @@ module.exports.getUserById = async (req, res, next) => {
     }
 };
 
+module.exports.emailSend = async (req, res, next) => {
+    let { email } = req.body;
+    try {
+        let data= await UserModel.findOne({email:email})
+        if(data){
+            const code = Math.floor(1000 + Math.random() * 9000);
+            const otp = new otpModel({
+                code: code,
+                email: email,
+                expireIn: Date.now() + 300000,
+            });
+            otp
+                .save()
+                .then((otpData) => {
+                    mailer(email,code)
+                    res.status(201).json({
+                        otpData,
+                        message: "Email sent successfully!",
+                    });
+                })
+                .catch((err) => {
+                    controllerError(err, res, 'Error occurred');
+                });
+        }else{
+            res.status(201).json({
+                message: "Email not found",
+            });
+        }
+    } catch (error) {
+        controllerError(error, res, 'Error occurred');
+    }
+     
+}
+const mailer =(email,code)=>{
+    const sgMail = require('@sendgrid/mail')
+    sgMail.setApiKey(SetYourapiKey)
+    const msg = {
+      to: email, // Change to your recipient
+      from: 'i190678@nu.edu.pk', // Change to your verified sender
+      subject: 'OTP for change password ',
+      text: 'This is your OTP for change password: '+code+'. Please do not share this with anyone',
+    }
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+}
+
+module.exports.changePassword = async (req, res, next) => {
+    let data = await otpModel.find({ email: req.body.email, code: req.body.otp });
+    // console.log(data)
+    const response={}
+    if (data) {
+        let currentTime = new Date().getTime();
+        let diff = data.expireIn - currentTime;
+        if (diff < 0) {
+            response.message = "OTP Expired";
+            res.status(201).json(response);
+        } else {
+            let user= await UserModel.findOne({email:req.body.email})
+            const hash = await cryptr.encrypt(req.body.newPassword);
+            user.password=hash
+            user.save()
+            .then((userData) => {
+                res.status(201).json({
+                    userData,
+                    message: "Password changed successfully!"
+                });
+            })
+            .catch((err) => {
+                controllerError(err, res, 'Error occurred');
+        });
+            
+        }
+    }
+    else{
+        response.message = "OTP not found";
+        res.status(201).json(response);
+    }
+}
