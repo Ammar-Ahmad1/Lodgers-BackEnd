@@ -120,3 +120,13 @@ module.exports.deleteHostel = async (req, res, next) => {
         controllerError(error, res, 'Error occurred');
     }
 };
+module.exports.getHostelsById = async (req, res, next) => {
+    console.log("calling")
+    try {
+        const hostels = await HostelModel.findById({_id:req.query._id});
+        console.log(hostels);
+        return res.send(hostels);
+    } catch (error) {
+        controllerError(error, res, 'Error occurred');
+    }
+};
