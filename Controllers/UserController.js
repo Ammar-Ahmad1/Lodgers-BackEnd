@@ -8,6 +8,19 @@ const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
 const cloudinary = require('../Middlewares/Cloudinary');
 const emailApi=process.env.EMAIL_API;
+module.exports.getUsers = async (req, res, next) => {
+    try {
+        const users = await UserModel.find();
+        console.log(users);
+        res.status(200).json({
+            users,
+        });
+    } catch (error) {
+        controllerError(error, res, 'Error occurred');
+    }
+};
+//register user
+
 module.exports.registerUser = async (req, res, next) => {
     try {
         const {name,email, password,role} = req.body;
