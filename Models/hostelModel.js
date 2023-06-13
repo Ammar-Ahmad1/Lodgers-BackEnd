@@ -25,6 +25,12 @@ const HostelSchema = new Schema({
         food: {type: Boolean, default: false},
         laundry: {type: Boolean, default: false},
        // gym: {type: Boolean, default: false},
+       singleroom: {type: Boolean, default: false},
+        doublebedroom: {type: Boolean, default: false},
+        threebedroom: {type: Boolean, default: false},
+       // ac: {type: Boolean, default: false},
+        attachbath: {type: Boolean, default: false},
+        airconditioned: {type: Boolean, default: false},
         
     },
     city: {
