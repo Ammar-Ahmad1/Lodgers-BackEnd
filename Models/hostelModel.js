@@ -14,7 +14,7 @@ const HostelSchema = new Schema({
         type: {type: String, default: 'Point'}, 
         coordinates: {type: [Number], default: [0, 0]}
     },
-    ratings: {type: Number, default: null},
+    ratings: {type: Number, default: 0},
     totalRooms: Number,
     features: {
         wifi: {type: Boolean, default: false},

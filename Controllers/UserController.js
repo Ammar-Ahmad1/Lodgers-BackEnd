@@ -7,6 +7,19 @@ const key = process.env.SECRET_KEY
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
 const cloudinary = require('../Middlewares/Cloudinary');
+const emailApi=process.env.EMAIL_API;
+module.exports.getUsers = async (req, res, next) => {
+    try {
+        const users = await UserModel.find();
+        console.log(users);
+        res.status(200).json({
+            users,
+        });
+    } catch (error) {
+        controllerError(error, res, 'Error occurred');
+    }
+};
+//register user
 
 module.exports.registerUser = async (req, res, next) => {
     try {
@@ -112,7 +125,7 @@ module.exports.emailSend = async (req, res, next) => {
 }
 const mailer =(email,code)=>{
     const sgMail = require('@sendgrid/mail')
-    sgMail.setApiKey(SetYourapiKey)
+    sgMail.setApiKey(emailApi)
     const msg = {
       to: email, // Change to your recipient
       from: 'i190678@nu.edu.pk', // Change to your verified sender
